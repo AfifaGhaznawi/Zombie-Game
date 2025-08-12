@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎯 Afifa Zombie Street Shootout</title>
+<style>
+    body {
+        background: #121212;
+        color: #ddd;
+        font-family: monospace;
+        padding: 20px;
+    }
+    h1 {
+        color: #ff9f1c;
+        text-align: center;
+        font-size: 2rem;
+    }
+    .log {
+        background: #1a1a1a;
+        padding: 15px;
+        border-radius: 8px;
+        white-space: pre-line;
+        line-height: 1.6;
+        border: 1px solid #333;
+    }
+    .orange { color: #ff9f1c; }
+    .red { color: #ff4d6d; }
+    .green { color: #00ffaa; }
+    .blue { color: #1ecbe1; }
+    .gray { color: #888; }
+    .divider {
+        color: #555;
+        display: block;
+        margin: 8px 0;
+    }
+</style>
+</head>
+<body>
+
+<h1>🎯 Afifa Zombie Street Shootout</h1>
+<div class="log" id="log"></div>
+
+<script>
+
+let player = {
+    name: "Afifa",
+    health: 100,
+    currentWeapon: "pistol",
+    inventory: {
+        pistol: { ammo: 3, damage: 25 }
+    }
+};
+
+
+let zombie = { type: "Crawler", health: 75 };
+
+let logBox = document.getElementById("log");
+
+function log(text) {
+    logBox.innerHTML += text + "\n";
+}
+
+
+log(`<span class="orange">👤 Player:</span> ${player.name} <span class="red">❤ ${player.health}</span>`);
+log(`<span class="orange">🧟 Zombie:</span> ${zombie.type} 🪓 <span class="red">❤ ${zombie.health}</span>`);
+log(`<span class="divider">────────────────────────────────────────</span>`);
+
+while (player.health > 0 && zombie.health > 0) {
+    let weapon = player.inventory[player.currentWeapon];
+    
+    
+    log(`⚡ Attacking with <span class="orange">${player.currentWeapon}</span> 🔫 (Damage: <span class="red">${weapon.damage}</span>, Ammo left: <span class="blue">${weapon.ammo}</span>)`);
+    zombie.health -= weapon.damage;
+    weapon.ammo--;
+    if (zombie.health < 0) zombie.health = 0;
+    log(`💥 Zombie takes <span class="red">${weapon.damage}</span> damage, health now: <span class="red">${zombie.health}</span>`);
+    
+    if (zombie.health > 0) {
+        let zombieDamage = 15;
+        player.health -= zombieDamage;
+        log(`🪓 Zombie attacks back! Player health: <span class="red">${player.health}</span>`);
+    }
+    
+    log(`<span class="divider">────────────────────────────────────────</span>`);
+}
+
+
+log(`🏆 <span class="orange">Battle Over!</span>`);
+log(`👤 Player final health: <span class="red">${player.health}</span> ❤`);
+log(`🧟 Zombie final health: <span class="red">${zombie.health}</span> 💀`);
+</script>
+
+</body>
+</html>
